@@ -16,6 +16,8 @@ const anthropic = new Anthropic({
     apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
+const TOOL_COMPONENT_CODE = "get_component_code";
+
 async function generateComponentCode(input: string | DesignComponent) {
     const response = await anthropic.messages.create({
         model: MODEL,
@@ -23,7 +25,7 @@ async function generateComponentCode(input: string | DesignComponent) {
         system: SYSTEM_PROMPT,
         tools: [
             {
-                name: "get_component_code",
+                name: TOOL_COMPONENT_CODE,
                 description: "Generate a react component code with separate react js and css modules files with the given layer data.",
                 input_schema: {
                     type: "object",
@@ -71,4 +73,38 @@ async function generateComponentCode(input: string | DesignComponent) {
     return result;
 }
 
-export { generateComponentCode };
+function generateComponentCodeStream(input: string | DesignComponent) {
+    const stream = anthropic.messages.stream({
+        model: MODEL,
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT,
+        tools: [
+            {
+                name: TOOL_COMPONENT_CODE,
+                description: "Generate a react component code with separate react js and css modules files with the given layer data.",
+                input_schema: {
+                    type: "object",
+                    properties: {
+                        code_react: {
+                            type: "string",
+                            description: "The resulting react code",
+                        },
+                        code_css: {
+                            type: "string",
+                            description: "The resulting css code",
+                        },
+                    },
+                    required: ["code_react", "code_css"],
+                },
+            },
+        ],
+        messages: [{ role: "user", content: JSON.stringify(input) }],
+    });
+
+    return stream;
+}
+
+export {
+    generateComponentCode,
+    generateComponentCodeStream
+};
