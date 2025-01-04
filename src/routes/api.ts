@@ -1,13 +1,13 @@
 import { Router } from "express";
+import { generateComponentCode } from "../services/ai";
 
 const router = Router();
 
 router.post("/component", async (req, res) => {
     try {
-        // TODO: Implement here
-        // const result = await generateComponentCode(req.body.input);
+        const result = await generateComponentCode(req.body.input);
 
-        res.status(200).json({ success: true });
+        res.status(200).json({ success: true, data: result });
     } catch (error: any) {
         res.status(500).json({ success: false, message: error.message });
     }
