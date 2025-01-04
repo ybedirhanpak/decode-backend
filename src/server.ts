@@ -16,6 +16,10 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api", apiRoutes);
 
+app.get("/", (req, res) => {
+    res.status(200).json({ success: true, message: "Server is working!" });
+});
+
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
     console.log(`Environment: ${process.env.NODE_ENV}`);
