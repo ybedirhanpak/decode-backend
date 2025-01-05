@@ -20,7 +20,7 @@ const TOOL_COMPONENT_CODE = "get_component_code";
 async function generateComponentCode(input: string | DesignComponent) {
     const response = await anthropic.messages.create({
         model: MODEL,
-        max_tokens: 1024,
+        max_tokens: 4096,
         system: SYSTEM_PROMPT,
         tools: [
             {
@@ -79,7 +79,7 @@ async function generateComponentCode(input: string | DesignComponent) {
 function generateComponentCodeStream(input: string | DesignComponent) {
     const stream = anthropic.messages.stream({
         model: MODEL,
-        max_tokens: 1024,
+        max_tokens: 4096,
         system: SYSTEM_PROMPT,
         tools: [
             {
