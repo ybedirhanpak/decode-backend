@@ -32,6 +32,11 @@ This is the type definition for the design data:
 type LayerType = "frame" | "text" | "image" | "icon" | "vector" | "group";
 
 interface LayerProperties {
+    content?: {
+        text?: string;
+        image?: string;
+    };
+
     positioning?: {
         x?: number;
         y?: number;
@@ -196,10 +201,12 @@ Rules for when design data is provided:
 - Colors are important. Background color, text color, border color. Find the correct colors from root layer of one of the child layers based on the hierarchy.
 - Use the correct font family, font size, font weight, line height and letter spacing.
 - If you see strokes, fills, backgrounds, effects etc. in the design, try to implement them. For strokes, you can use border or svg elements.
+- If you see 'content.text' field in the layers, use this in the preview code to show a realistic preview.
 
 Rules for code generation:
 - At the start of each user prompt, there will be a component name with this format: component_name="ComponentName". Use this name for the component name in the react code.
 - Don't import these files from each other. Just generate their code.
+- Functionality should be consistent. For example the disabled state of a button cannot be clickable.
 
 Rules for react code:
 - Use component_name="ComponentName" as the component name
@@ -230,6 +237,8 @@ Rules for preview code:
 - Use different props for different states and variants
 - When styling the preview, use inline styles.
 - Add titles for each component usage, explaining what's being shown.
+- Make the preview interactive. For example, if it's a button, show how it looks when hovered, focused, pressed etc. If it's an input, show how it looks when focused, disabled etc.
+- Use 'React.useState' to show different states of the component. If there are variants, use separate states for each variant.
 
 Example for a component named 'Button'
 
@@ -241,6 +250,8 @@ export default function Button({
     children,
     onClick
 }) {
+    const [count, setCount] = React.useState(0);
+
     return (
         <button
             className={\`\${styles.button} \${styles[variant]} \${disabled ? styles.disabled : ""}\`}
@@ -248,6 +259,7 @@ export default function Button({
             disabled={disabled}
         >
             <span className={styles.content}>{children}</span>
+            <span>{count}</span>
         </button>
     );
 }
