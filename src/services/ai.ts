@@ -37,8 +37,12 @@ async function generateComponentCode(input: string | DesignComponent) {
                             type: "string",
                             description: "The resulting css code",
                         },
+                        code_preview: {
+                            type: "string",
+                            description: "The resulting preview code",
+                        }
                     },
-                    required: ["code_react", "code_css"],
+                    required: ["code_react", "code_css", "code_preview"],
                 },
             },
         ],
@@ -92,8 +96,12 @@ function generateComponentCodeStream(input: string | DesignComponent) {
                             type: "string",
                             description: "The resulting css code",
                         },
+                        code_preview: {
+                            type: "string",
+                            description: "The resulting preview code",
+                        }
                     },
-                    required: ["code_react", "code_css"],
+                    required: ["code_react", "code_css", "code_preview"],
                 },
             },
         ],
