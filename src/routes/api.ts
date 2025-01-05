@@ -50,12 +50,17 @@ router.post("/component", async (req, res) => {
 });
 
 router.post("/component/stream", async (req, res) => {
+    let intervalId: NodeJS.Timeout | null = null;
+
     try {
         res.setHeader("Content-Type", "text/event-stream");
         res.setHeader("Cache-Control", "no-cache");
         res.setHeader("Connection", "keep-alive");
 
         const stream = generateComponentCodeStream(req.body.input);
+
+        const keepAliveMessage = { type: "keep-alive" };
+        intervalId = setInterval(() => res.write(`S-${JSON.stringify(keepAliveMessage)}-E\n`), 3000);
 
         if (process.env.NODE_ENV === "local") {
             let totalMessage = "";
@@ -76,8 +81,13 @@ router.post("/component/stream", async (req, res) => {
             }
         }
 
+        clearInterval(intervalId);
         res.end();
     } catch (error: any) {
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
+
         res.write(
             `${JSON.stringify({ success: false, message: error.message })}\n`
         );
