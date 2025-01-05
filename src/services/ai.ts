@@ -9,12 +9,7 @@ import { logResponse } from "./log";
 
 dotenv.config();
 
-const CLAUDE_HAIKU_MODEL = "claude-3-5-haiku-20241022";
-const CLAUDE_SONNET_MODEL = "claude-3-5-sonnet-20241022";
-
-const defaultModel = process.env.NODE_ENV === "production" ? CLAUDE_SONNET_MODEL : CLAUDE_HAIKU_MODEL;
-
-const MODEL = process.env.ANTHROPIC_AI_MODEL ?? defaultModel;
+const MODEL = "claude-3-5-sonnet-20241022";
 
 const anthropic = new Anthropic({
     apiKey: process.env.ANTHROPIC_API_KEY,
