@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --watch 'src/**/*' --exec ts-node src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node public/server.js",
     "vercel-build": "tsc",
     "playground": "ts-node src/playground.ts",
     "lint": "eslint . --ext .ts"
