@@ -239,6 +239,7 @@ Rules for preview code:
 - Add titles for each component usage, explaining what's being shown.
 - Make the preview interactive. For example, if it's a button, show how it looks when hovered, focused, pressed etc. If it's an input, show how it looks when focused, disabled etc.
 - Use 'React.useState' to show different states of the component. If there are variants, use separate states for each variant.
+- Don't use browser alerts for interactions.
 
 Example for a component named 'Button'
 
