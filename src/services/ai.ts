@@ -1,13 +1,10 @@
 import Anthropic from "@anthropic-ai/sdk";
-import dotenv from "dotenv";
 
 import { AIResult } from "../model/AI";
 import { DesignComponent } from "../model/Design";
 
 import { SYSTEM_PROMPT } from "./prompt";
-import { logResponse } from "./log";
 
-dotenv.config();
 
 const MODEL = "claude-3-5-sonnet-20241022";
 
@@ -58,7 +55,6 @@ async function generateComponentCode(input: string | DesignComponent) {
         // This code block assumes that there is only one tool_use message
         // and that it contains zero or one code_react and code_css properties
         if (message.type === "tool_use") {
-            console.log("message", message);
             if ((message.input as AIResult).code_react) {
                 result.code_react = (message.input as AIResult).code_react;
             }
@@ -68,10 +64,6 @@ async function generateComponentCode(input: string | DesignComponent) {
             }
         }
     });
-
-    if (process.env.NODE_ENV === "local") {
-        await logResponse(response);
-    }
 
     return result;
 }
