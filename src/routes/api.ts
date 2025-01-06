@@ -32,7 +32,6 @@ router.get("/info", (req, res) => {
     const response = `
         <h1>API Information</h1>
         <p>Environment: ${process.env.NODE_ENV}</p>
-        <p>Anthropic AI Model: ${process.env.ANTHROPIC_AI_MODEL}</p>
         <p>App URL: ${process.env.APP_URL}</p>
     `;
 
